@@ -9,7 +9,7 @@ class HomeScreen extends StatelessWidget {
     return GetBuilder<HomeController>(
       init: HomeController(),
       builder: (controller) {
-        return const Scaffold(
+        return Scaffold(
 
           body: Center(
             child: Text("Home Screen"),

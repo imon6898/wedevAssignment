@@ -15,6 +15,7 @@ class SearchScreen extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             elevation: 0,
+            forceMaterialTransparency: true,
             automaticallyImplyLeading: false, // Remove back button icon
             title: Text(
               "Product List",

@@ -47,7 +47,7 @@ class ProfileScreen extends StatelessWidget {
 
                 // Name
                 Text(
-                  "John Smith",
+                  controller.fullNameProController.text,
                   style: TextStyle(
                     fontFamily: 'Lato',
                     fontWeight: FontWeight.w900,
@@ -81,11 +81,14 @@ class ProfileScreen extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          _buildListRow(
+                          Obx(() {
+                            return _buildListRow(
                               svgPath: "assets/svg/person.svg",
                               label: "Account",
-                              onTap: controller.toggleAccountDetails
-                          ),
+                              onTap: controller.toggleAccountDetails,
+                              isExpanded: controller.isAccountExpanded.value,
+                            );
+                          }),
                           Obx(() {
                             return controller.isAccountExpanded.value
                                 ? _buildAccountDetails(controller)
@@ -96,27 +99,30 @@ class ProfileScreen extends StatelessWidget {
                             child: Divider(height: 2, color: Color(0xffA0A9BD)),
                           ),
                           _buildListRow(
-                              svgPath: "assets/svg/password-icon.svg",
-                              label: "Password",
-                              onTap: () {}
+                            svgPath: "assets/svg/password-icon.svg",
+                            label: "Password",
+                            onTap: () {},
+                            isExpanded: false,
                           ),
                           Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Divider(height: 2, color: Color(0xffA0A9BD)),
                           ),
                           _buildListRow(
-                              svgPath: "assets/svg/notification_icon.svg",
-                              label: "Notification",
-                              onTap: () {}
+                            svgPath: "assets/svg/notification_icon.svg",
+                            label: "Notification",
+                            onTap: () {},
+                            isExpanded: false,
                           ),
                           Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: Divider(height: 2, color: Color(0xffA0A9BD)),
                           ),
                           _buildListRow(
-                              svgPath: "assets/svg/heart.svg",
-                              label: "Wishlist",
-                              onTap: () {}
+                            svgPath: "assets/svg/heart.svg",
+                            label: "Wishlist",
+                            onTap: () {},
+                            isExpanded: false,
                           ),
                         ],
                       ),
@@ -137,7 +143,12 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildListRow({required String svgPath, required String label, required VoidCallback onTap}) {
+  Widget _buildListRow({
+    required String svgPath,
+    required String label,
+    required VoidCallback onTap,
+    required bool isExpanded,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: Padding(
@@ -164,12 +175,17 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ],
             ),
-            Icon(Icons.arrow_forward_ios),
+            Icon(isExpanded
+                ? Icons.keyboard_arrow_down_outlined
+                : Icons.arrow_forward_ios_outlined,
+              size: isExpanded ? 40 : 25,
+            ),
           ],
         ),
       ),
     );
   }
+
 
   Widget _buildAccountDetails(ProfileController controller) {
     return Padding(
@@ -233,5 +249,4 @@ class ProfileScreen extends StatelessWidget {
       ),
     );
   }
-
 }
