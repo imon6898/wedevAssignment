@@ -8,6 +8,8 @@ import 'package:wedevsdssignment/services/cache/cache_manager.dart';
 import 'package:wedevsdssignment/services/network/http_requests.dart';
 import 'package:wedevsdssignment/utils/main_utils.dart';
 
+import '../utils/api.dart';
+
 class AuthController extends GetxController {
   final AuthService _authService = AuthService();
   var isAuthenticated = false.obs;
@@ -29,7 +31,7 @@ class AuthController extends GetxController {
   Future<void> login(String username, String password) async {
     try {
       //await Future.delayed(Duration(seconds: 2));
-      String url = "https://apptest.dokandemo.com/wp-json/jwt-auth/v1/token";
+      String url = Api.login;
       var result = await HttpRequests.post(url, body: {
 
         "username": username,
@@ -64,7 +66,7 @@ class AuthController extends GetxController {
   Future<void> register(String username, String email, String password, String confirmPassword) async {
     try {
       //await Future.delayed(Duration(seconds: 2));
-      String url = "https://apptest.dokandemo.com/wp-json/wp/v2/users/register";
+      String url = Api.register;
       var result = await HttpRequests.post(url, body: {
 
           "username": username,
@@ -94,5 +96,33 @@ class AuthController extends GetxController {
     } catch (e) {
       print('Registration failed: $e');
     }
+  }
+
+  Future<Map<String, dynamic>?> account() async {
+    try {
+      String url = Api.getUserData;
+      var token = await getToken();
+      var result = await HttpRequests.get(url, headers: {
+        'Authorization': 'Bearer $token',
+      });
+
+      if (result == null) {
+        MainUtils.showErrorSnackBar("Something went wrong");
+        return null;
+      }
+
+      print("Account Result = $result");
+      return result as Map<String, dynamic>;
+    } catch (e) {
+      print('Fetching account details failed: $e');
+      return null;
+    }
+  }
+
+
+  Future<void> logout() async {
+    await CacheManager.removeToken();
+    isAuthenticated.value = false;
+    Get.offAllNamed(AppRoutes.loginScreen); // Navigate to the login screen
   }
 }

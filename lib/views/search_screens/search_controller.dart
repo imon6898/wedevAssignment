@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:wedevsdssignment/utils/main_utils.dart';
 import 'package:wedevsdssignment/widgets/custom_button.dart';
@@ -12,7 +15,7 @@ class MySearchController extends GetxController {
   var priceHighToLowChecked = false.obs;
   var bestSellingChecked = false.obs;
 
-  List<Map<String, dynamic>> products = [];
+
 
   void toggleNewest() => newestChecked.toggle();
   void toggleOldest() => oldestChecked.toggle();
@@ -21,14 +24,21 @@ class MySearchController extends GetxController {
   void toggleBestSelling() => bestSellingChecked.toggle();
 
 
+  var products = <Map<String, dynamic>>[].obs;
+
   Future<void> loadData() async {
     try {
-      dynamic jsonData = await MainUtils.loadJsonFromAssets('assets/json/response.json');
+      String jsonString = await rootBundle.loadString('assets/json/response.json');
+      dynamic jsonData = json.decode(jsonString);
 
-      if (jsonData is Map<String, dynamic>) {
-        print('Loaded JSON data as Map: $jsonData');
-      } else if (jsonData is List<dynamic>) {
-        print('Loaded JSON data as List: $jsonData');
+      if (jsonData is List) {
+        products.value = List<Map<String, dynamic>>.from(jsonData.map((product) => {
+          'file': product['file'],
+          'name': product['name'],
+          'regular_price': product['regular_price'] != null ? double.tryParse(product['regular_price'].toString()) ?? 0.0 : 0.0,
+          'price': product['price'] != null ? double.tryParse(product['price'].toString()) ?? 0.0 : 0.0,
+          'rating_count': product['rating_count'] != null ? double.tryParse(product['rating_count'].toString()) ?? 0.0 : 0.0,
+        }));
       } else {
         print('Unexpected JSON data format: $jsonData');
       }

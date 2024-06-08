@@ -114,28 +114,32 @@ class SearchScreen extends StatelessWidget {
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(top: 20.0),
-                    child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, // Example cross axis count
-                        childAspectRatio: 0.6, // Adjust the aspect ratio to fit the product card
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 10,
-
-                      ),
-                      itemCount: controller.products.length, // Number of items in the grid
-                      itemBuilder: (context, index) {
-                        var product = controller.products[index];
-                        return CustomProductCard(
-                          image: product['file'] ?? '', // Adjust field names as per your JSON structure
-                          productName: product['name'] ?? '',
-                          discountPrice: product['regular_price'] ?? 0.0,
-                          currentPrice: product['price'] ?? 0,
-                          initialRating: product['rating_count'] ?? 0.0,
+                    child: Obx(
+                          () {
+                        return GridView.builder(
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 0.6,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                          ),
+                          itemCount: controller.products.length,
+                          itemBuilder: (context, index) {
+                            var product = controller.products[index];
+                            return CustomProductCard(
+                              image: product['file'] ?? '',
+                              productName: product['name'] ?? '',
+                              discountPrice: product['regular_price'] ?? 0.0,
+                              currentPrice: product['price'] ?? 0.0,
+                              initialRating: product['rating_count'] ?? 0.0,
+                            );
+                          },
                         );
                       },
                     ),
                   ),
                 ),
+
               ],
             ),
           ),

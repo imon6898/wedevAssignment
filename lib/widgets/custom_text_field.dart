@@ -135,6 +135,7 @@ TextStyle customTextStyle = TextStyle(
 
 class CustomTextFields extends StatefulWidget {
   final TextEditingController controller;
+  final String? hedingText;
   final String hintText;
   final String? prefixIconPath;
   final String? suffixIconPath;
@@ -145,6 +146,7 @@ class CustomTextFields extends StatefulWidget {
   const CustomTextFields({
     Key? key,
     required this.controller,
+    this.hedingText,
     required this.hintText,
     this.prefixIconPath,
     this.suffixIconPath,
@@ -160,73 +162,90 @@ class CustomTextFields extends StatefulWidget {
 class _CustomTextFieldsState extends State<CustomTextFields> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 40,
-      child: TextField(
-        controller: widget.controller,
-        decoration: InputDecoration(
-          hintText: widget.hintText,
-          hintStyle: TextStyle(
-            fontFamily: 'Roboto',
-            fontWeight: FontWeight.w400,
-            fontSize: 17.36,
-            color: Color(0xFFA4A9AF),
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            widget.hedingText!,
+            style: TextStyle(
+              fontFamily: 'Roboto',
+              fontWeight: FontWeight.w400,
+              fontSize: 17.36,
+              color: Color(0xFFA4A9AF),
+            ),
           ),
-          contentPadding: EdgeInsets.symmetric(vertical: 0), // Set vertical content padding to 0
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          disabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          prefixIcon: widget.prefixIconPath != null
-              ? GestureDetector(
-            onTap: widget.onPrefixIconPressed,
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: SvgPicture.asset(
-                widget.prefixIconPath!,
-                width: 20,
-                height: 16,
+          SizedBox(height: 5,),
+          SizedBox(
+            height: 40,
+            child: TextField(
+              controller: widget.controller,
+              decoration: InputDecoration(
+                hintText: widget.hintText,
+                hintStyle: TextStyle(
+                  fontFamily: 'Roboto',
+                  fontWeight: FontWeight.w400,
+                  fontSize: 17.36,
+                  color: Color(0xFFA4A9AF),
+                ),
+                contentPadding: EdgeInsets.symmetric(horizontal: 10), // Set vertical content padding to 0
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFFA4A9AF)),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                disabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                prefixIcon: widget.prefixIconPath != null
+                    ? GestureDetector(
+                  onTap: widget.onPrefixIconPressed,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: SvgPicture.asset(
+                      widget.prefixIconPath!,
+                      width: 20,
+                      height: 16,
+                    ),
+                  ),
+                )
+                    : null,
+                suffixIcon: widget.suffixIconPath != null
+                    ? GestureDetector(
+                  onTap: widget.onSuffixIconPressed,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: SvgPicture.asset(
+                      widget.suffixIconPath!,
+                      width: 20,
+                      height: 16,
+                    ),
+                  ),
+                )
+                    : widget.suffixIcon != null
+                    ? GestureDetector(
+                  onTap: widget.onSuffixIconPressed,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Icon(
+                      widget.suffixIcon,
+                      size: 20,
+                    ),
+                  ),
+                )
+                    : null,
               ),
             ),
-          )
-              : null,
-          suffixIcon: widget.suffixIconPath != null
-              ? GestureDetector(
-            onTap: widget.onSuffixIconPressed,
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: SvgPicture.asset(
-                widget.suffixIconPath!,
-                width: 20,
-                height: 16,
-              ),
-            ),
-          )
-              : widget.suffixIcon != null
-              ? GestureDetector(
-            onTap: widget.onSuffixIconPressed,
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Icon(
-                widget.suffixIcon,
-                size: 20,
-              ),
-            ),
-          )
-              : null,
-        ),
+          ),
+        ],
       ),
     );
   }
 }
-
 
 

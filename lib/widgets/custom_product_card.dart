@@ -4,7 +4,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 class CustomProductCard extends StatelessWidget {
   final String? image;
   final String? productName;
-  final String? discountPrice;
+  final double? discountPrice;
   final double? currentPrice;
   final double? initialRating;
 
@@ -25,27 +25,31 @@ class CustomProductCard extends StatelessWidget {
         Container(
           width: 160.42,
           height: 177.16,
-          child: Image.asset(
-            image!,
-            fit: BoxFit.fill,
-          ),
+          color: Colors.white,
+          child: image != null && image!.isNotEmpty
+              ? Image.network(image!, fit: BoxFit.fill, errorBuilder: (context, error, stackTrace) {
+            return Image.asset('assets/png/dokan_Logo_color.png',height: 50,width: 100,);
+          })
+              : Image.asset('assets/png/dokan_Logo_color.png',height: 50,width: 100,),
         ),
         // Second Column
         Container(
           width: 160.42,
           height: 113,
           decoration: BoxDecoration(
-              color: Colors.white,
-            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(10),
+              bottomRight: Radius.circular(10),
+            ),
           ),
-
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                productName!,
+                productName ?? 'Unknown',
                 style: TextStyle(
                   fontFamily: 'Roboto',
                   fontWeight: FontWeight.w400,
@@ -62,7 +66,9 @@ class CustomProductCard extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        '\$$discountPrice',
+                        discountPrice != null
+                            ? '\$${discountPrice!.toStringAsFixed(2)}'
+                            : '',
                         style: TextStyle(
                           fontFamily: 'Lato',
                           fontWeight: FontWeight.w400,
@@ -74,7 +80,9 @@ class CustomProductCard extends StatelessWidget {
                       ),
                       SizedBox(width: 4),
                       Text(
-                        '\$$currentPrice',
+                        currentPrice != null
+                            ? '\$${currentPrice!.toStringAsFixed(2)}'
+                            : '',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -84,7 +92,7 @@ class CustomProductCard extends StatelessWidget {
                   ),
                   SizedBox(height: 8),
                   RatingBar.builder(
-                    initialRating: initialRating!,
+                    initialRating: initialRating ?? 0.0,
                     minRating: 1,
                     direction: Axis.horizontal,
                     allowHalfRating: true,
