@@ -8,6 +8,11 @@ import 'package:wedevsdssignment/widgets/custom_button.dart';
 import 'package:wedevsdssignment/widgets/custom_checkbox.dart';
 
 class MySearchController extends GetxController {
+  Rx<Color> appBarColor = Colors.transparent.obs;
+  void changeAppBarColor(Color color) {
+    appBarColor.value = color;
+  }
+
   // Define boolean variables to track the state of each checkbox
   var newestChecked = false.obs;
   var oldestChecked = false.obs;

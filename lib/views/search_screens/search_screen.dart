@@ -14,6 +14,7 @@ class SearchScreen extends StatelessWidget {
       builder: (controller) {
         return Scaffold(
           appBar: AppBar(
+            elevation: 0,
             automaticallyImplyLeading: false, // Remove back button icon
             title: Text(
               "Product List",
@@ -32,13 +33,39 @@ class SearchScreen extends StatelessWidget {
               ),
             ],
           ),
-          body: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
+          body: Stack(
+
+            children: [
+
+              Obx(() {
+                return Column(
+                  children: [
+                    SizedBox(height: 70),
+                    Expanded(
+                      child: GridView.builder(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 0.6,
+                        ),
+                        itemCount: controller.products.length,
+                        itemBuilder: (context, index) {
+                          var product = controller.products[index];
+                          return CustomProductCard(
+                            image: product['file'] ?? '',
+                            productName: product['name'] ?? '',
+                            discountPrice: product['regular_price'] ?? 0.0,
+                            currentPrice: product['price'] ?? 0.0,
+                            initialRating: product['rating_count'] ?? 0.0,
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                );
+              }),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: Container(
                   height: 60.0,
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -111,37 +138,8 @@ class SearchScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
-                    child: Obx(
-                          () {
-                        return GridView.builder(
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 0.6,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                          ),
-                          itemCount: controller.products.length,
-                          itemBuilder: (context, index) {
-                            var product = controller.products[index];
-                            return CustomProductCard(
-                              image: product['file'] ?? '',
-                              productName: product['name'] ?? '',
-                              discountPrice: product['regular_price'] ?? 0.0,
-                              currentPrice: product['price'] ?? 0.0,
-                              initialRating: product['rating_count'] ?? 0.0,
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                ),
-
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },

@@ -25,7 +25,10 @@ class CustomProductCard extends StatelessWidget {
         Container(
           width: 160.42,
           height: 177.16,
-          color: Colors.white,
+          decoration: BoxDecoration(
+              color: Colors.white,
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10))
+          ),
           child: image != null && image!.isNotEmpty
               ? Image.network(image!, fit: BoxFit.fill, errorBuilder: (context, error, stackTrace) {
             return Image.asset('assets/png/dokan_Logo_color.png',height: 50,width: 100,);

@@ -31,8 +31,97 @@ class _DashboardScreenState extends State<DashboardScreen> {
       bottomNavigationBar: Obx(
             () => ClipRRect(
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(10.0),
-            topRight: Radius.circular(10.0),
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
+          ),
+          child: BottomAppBar(
+            height: 60,
+            elevation: 0,
+            shadowColor: Colors.black,
+            surfaceTintColor: Colors.white,
+            color: Colors.white,
+            shape: CircularNotchedRectangle(),
+            notchMargin: 0.1,
+            //clipBehavior: Clip.antiAlias,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                InkWell(
+                  onTap: () {
+                    controller.onItemTapped(0);
+                  },
+                  child: SvgPicture.asset(
+                    'assets/svg/home_icon.svg',
+                    height: 24,
+                    width: 24,
+                    color: controller.selectedIndex.value == 0 ? Colors.red : Colors.black,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    controller.onItemTapped(1);
+                  },
+                  child: SvgPicture.asset(
+                    'assets/svg/category_icon.svg',
+                    height: 24,
+                    width: 24,
+                    color: controller.selectedIndex.value == 1 ? Colors.red : Colors.black,
+                  ),
+                ),
+                SizedBox(width: 24), // To create space for the floating action button
+                InkWell(
+                  onTap: () {
+                    controller.onItemTapped(3);
+                  },
+                  child: SvgPicture.asset(
+                    'assets/svg/cart_icon.svg',
+                    height: 24,
+                    width: 24,
+                    color: controller.selectedIndex.value == 3 ? Colors.red : Colors.black,
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    controller.onItemTapped(4);
+                  },
+                  child: SvgPicture.asset(
+                    'assets/svg/person.svg',
+                    height: 24,
+                    width: 24,
+                    color: controller.selectedIndex.value == 4 ? Colors.red : Colors.black,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: FloatingActionButton(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(40))),
+          hoverElevation: 10,
+          //splashColor: Colors.grey,
+          backgroundColor: Colors.red,
+          tooltip: 'Search',
+          elevation: 4,
+          child: Icon(Icons.search),
+          onPressed: () => setState(() {
+            controller.onItemTapped(2);
+          }),
+        ),
+      ),
+    );
+  }
+}
+
+
+/*bottomNavigationBar: Obx(
+            () => ClipRRect(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
           ),
           child: BottomAppBar(
             height: 60,
@@ -41,7 +130,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             surfaceTintColor: Colors.white,
             color: Colors.white,
             shape: CircularNotchedRectangle(),
-            notchMargin: 5.1,
+            notchMargin: 0.1,
             clipBehavior: Clip.antiAlias,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -102,7 +191,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: FloatingActionButton(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(40))),
           hoverElevation: 10,
-          splashColor: Colors.grey,
+          //splashColor: Colors.grey,
           backgroundColor: Colors.red,
           tooltip: 'Search',
           elevation: 4,
@@ -111,7 +200,4 @@ class _DashboardScreenState extends State<DashboardScreen> {
             controller.onItemTapped(2);
           }),
         ),
-      ),
-    );
-  }
-}
+      ),*/
